@@ -34,7 +34,7 @@ Write an async/after Business Rules:-
 	request.setHttpMethod('POST');
 	request.setRequestBody(body);
 	
-	var user= "abhinandanparhi@gmail.com";
+	var user= "Email where you have creted an account in JIRA";
 	var password = '8wirS3jFpLRcdU0Ky7xQF620';
 	
 	
