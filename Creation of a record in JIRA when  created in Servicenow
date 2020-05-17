@@ -1,0 +1,52 @@
+1 ) Create a new account in the JIRA attlasian
+2 ) Create a new REST message 
+
+Endpoint :- https://abhinandanbengaluru.atlassian.net/rest/api/3/
+
+Here jql=priority=Medium is the jql query search to get the filter is the one you get in the JIRA.
+HTTP Method :- GET
+Accept:-application/json
+Content-Type:-application/json
+
+Now create a new resource for the rest
+
+https://abhinandanbengaluru.atlassian.net/rest/api/3/search?jql=priority=Medium
+
+Now use test as this is the Outbound message:-
+
+Now you will get the records with the above query, priority=Medium
+
+
+Now we need to create Records in JIRA when we are creating a STORY in servicenow Instance :- 
+
+Write an async/after Business Rules:- 
+
+(function executeRule(current, previous /*null when async*/) {
+
+	// Add your code here
+	var body = "{\"fields\": {\"project\":{\"key\": \"TEST\"},\"summary\": \"This is JIRA DEMO\",\"description\": \"DEMO JIRA DESCRIPTION\",\"issuetype\": {\"name\": \"Story\"}}}";
+	
+  //You can add the description and summary using current.description and current.summary
+  
+  
+	var request = new sn_ws.RESTMessageV2();
+	request.setEndpoint("https://abhinandanbengaluru.atlassian.net/rest/api/3/issue");
+	request.setHttpMethod('POST');
+	request.setRequestBody(body);
+	
+	var user= "abhinandanparhi@gmail.com";
+	var password = '8wirS3jFpLRcdU0Ky7xQF620';
+	
+	
+	request.setBasicAuth(user,password);
+	request.setRequestHeader("Accept","application/json");
+	request.setRequestHeader("Content-Type","application/json");
+	
+	var response = request.execute();
+	
+	gs.log(response.getBody());
+	
+	
+
+})(current, previous);
+
